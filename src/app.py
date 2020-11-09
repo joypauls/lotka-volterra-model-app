@@ -77,13 +77,23 @@ simulation_df = simulate(time_range, [x_initial, y_initial], alpha, beta, gamma,
 simulation_alt_df = pd.melt(simulation_df, id_vars=["t"], value_vars=["x", "y"], var_name="label", value_name="value")
 time_chart = alt.Chart(simulation_alt_df).mark_line().encode(
     x=alt.X("t", axis=alt.Axis(title="time")),
-    y=alt.X("value", axis=alt.Axis(title="population")),
+    y=alt.Y("value", axis=alt.Axis(title="population")),
     color="label",
     # strokeDash="label",
 )
+st.header("Time Dynamics")
 st.altair_chart(time_chart, use_container_width=True)
 
 
+phase_chart = alt.Chart(simulation_df).mark_point().encode(
+    x=alt.X("x", axis=alt.Axis(title="rabbits")),
+    y=alt.Y("y", axis=alt.Axis(title="foxes")),
+    # color="label",
+    # strokeDash="label",
+    order="t"
+)
+st.header("Phase Dynamics")
+st.altair_chart(phase_chart, use_container_width=True)
 
 
 # add_slider = st.sidebar.slider(
